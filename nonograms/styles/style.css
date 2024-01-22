@@ -1,0 +1,96 @@
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.nonogram-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.row {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.row > *:not(:first-child):not(:last-child) {
+  border-right: 0;
+}
+
+
+.nonogram-container > .row:not(:last-child) .cell,
+.nonogram-container > .row:not(:first-child):not(:last-child) .clue {
+  border-bottom: 0;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgb(113, 113, 113);
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filled {
+  background-color: rgb(29, 36, 67);
+}
+
+
+.clue.--right, .clue.--empty {
+  min-width: 40px;
+  padding: 0 10px;
+  height: 40px;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid  rgb(113, 113, 113);
+  border-right: 2px solid  rgb(113, 113, 113);
+  background-color: #fff;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.clue.--empty {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-right: 3px solid transparent;
+}
+.clue.--top {
+  width: 40px;
+  padding: 5px 0;
+  border: 1px solid  rgb(113, 113, 113);
+  border-bottom: 2px solid rgb(113, 113, 113);
+  background-color: #fff;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-weight: 300;
+  border-radius: 5px 5px 0 0;
+}
+
+.clue-number {
+  font-size: 16px;
+  font-weight: 300;
+  color:  rgb(29, 36, 67);
+}
