@@ -6,7 +6,7 @@ const puzzleEmpty = [
   [0, 0, 0, 0, 0],
 ];
 
-const userPuzzle = [
+let userPuzzle = [
   [0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0],
@@ -34,6 +34,7 @@ function areArraysEqual(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2);
 }
 
+let mainContainer;
 let nonogramContainer;
 let currentPuzzle = puzzleTower;
 
@@ -61,7 +62,7 @@ const renderElement = (child, className, parent, attr) => {
 
 const initialRender = () => {
   document.body.innerHTML = "";
-  const mainContainer = renderElement("div", "main-container", document.body);
+  mainContainer = renderElement("div", "main-container", document.body);
   nonogramContainer = renderElement("div", "nonogram-container", mainContainer);
   fieldRender(puzzleTower, "initial");
 };
@@ -140,21 +141,42 @@ const getTopClue = (puzzle) => {
   });
 };
 
-cellClickHandler = (e) => {
+const cellClickHandler = (e) => {
   e.target.classList.toggle("filled");
 
   //made userMatrix;
   const row = e.target.dataset.row;
   const cell = e.target.dataset.cell;
   userPuzzle[row][cell] = e.target.classList.contains("filled") ?  1 : 0;
-  console.log(userPuzzle);
 
   if (areArraysEqual(userPuzzle, currentPuzzle)) {
-    console.log("Equal");
+    renderModal('Congratulations!')
   } else {
     console.log("Not Equal");
   }
 
 }
+
+  const renderModal = (result) => {
+    const modal = renderElement("div", "modal", mainContainer);
+    const modalContent = renderElement("div", "modal-content", modal);
+    const resultMessage = renderElement("h2", "result-message", modalContent, {innerText: result});
+  
+    const startButton = renderElement("button", "modal-button", modalContent, {innerText: "Play Again"});
+    startButton.addEventListener("click", () => handleStartButton());
+    modal.style.display = "flex";
+  }
+
+  const handleStartButton = () => {
+    userPuzzle = [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+    ];
+
+    initialRender();
+  }
 
 initialRender();
