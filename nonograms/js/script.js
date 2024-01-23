@@ -42,10 +42,10 @@ const initialRender = () => {
   document.body.innerHTML = "";
   const mainContainer = renderElement("div", "main-container", document.body);
   nonogramContainer = renderElement("div", "nonogram-container", mainContainer);
-  fieldRender(puzzle);
+  fieldRender(puzzle, "initial");
 };
 
-const fieldRender = (puzzle) => {
+const fieldRender = (puzzle, fieldMode) => {
   let topClueCounter = 0;
   puzzle.forEach((rowArr, rowIndex) => {
     //top row clues render
@@ -59,13 +59,21 @@ const fieldRender = (puzzle) => {
     const leftClueElement = renderElement("div", "clue --left", row);
     let leftClueCounter = 0;
     rowArr.forEach((el, i) => {
+    
+    //cells rendering
+
+    let ceilElement;
       if (el === 1) {
-        const element = renderElement("div", "cell filled", row);
+        ceilElement = fieldMode !== "initial" ? renderElement("div", "cell filled", row) : renderElement("div", "cell", row);
         leftClueCounter += 1;
       } else {
         leftClueCounter = 0;
-        const element = renderElement("div", "cell", row);
+        ceilElement = renderElement("div", "cell", row);
       }
+
+      ceilElement.addEventListener("click", (e) => {
+        e.target.classList.toggle("filled");
+      })
 
       //fill left clue with counter
       if (
