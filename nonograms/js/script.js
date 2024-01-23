@@ -1,4 +1,4 @@
-const puzzleEmpty = [
+let userPuzzle = [
   [0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0],
@@ -6,12 +6,35 @@ const puzzleEmpty = [
   [0, 0, 0, 0, 0],
 ];
 
-let userPuzzle = [
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
+let userPuzzleMiddle = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
+let userPuzzleHard = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
 const puzzleSnowFlake = [
@@ -22,13 +45,6 @@ const puzzleSnowFlake = [
   [1, 0, 1, 0, 1],
 ];
 
-const puzzleTower = [
-  [1, 0, 1, 0, 1],
-  [1, 1, 1, 1, 1],
-  [0, 1, 1, 1, 0],
-  [0, 1, 0, 1, 0],
-  [0, 1, 1, 1, 0],
-];
 
 function areArraysEqual(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2);
@@ -36,7 +52,7 @@ function areArraysEqual(arr1, arr2) {
 
 let mainContainer;
 let nonogramContainer;
-let currentPuzzle = puzzleTower;
+let currentPuzzle = puzzleSnowFlake;
 
 // const getRandomPuzzle = () => {
 //   const randomIndex = Math.floor(Math.random() * questionsData.length);
@@ -64,7 +80,7 @@ const initialRender = () => {
   document.body.innerHTML = "";
   mainContainer = renderElement("div", "main-container", document.body);
   nonogramContainer = renderElement("div", "nonogram-container", mainContainer);
-  fieldRender(puzzleTower, "initial");
+  fieldRender(currentPuzzle, "initial");
 };
 
 const fieldRender = (puzzle, fieldMode) => {
@@ -82,18 +98,21 @@ const fieldRender = (puzzle, fieldMode) => {
     let leftClueCounter = 0;
 
     rowArr.forEach((el, i) => {
-    //cells rendering
-    let ceilElement;
+      //cells rendering
+      let ceilElement;
       if (el === 1) {
-        ceilElement = (fieldMode !== "initial") ? renderElement("div", "cell filled", row) : renderElement("div", "cell", row);
+        ceilElement =
+          fieldMode !== "initial"
+            ? renderElement("div", "cell filled", row)
+            : renderElement("div", "cell", row);
         leftClueCounter += 1;
       } else {
         leftClueCounter = 0;
         ceilElement = renderElement("div", "cell", row);
       }
-      ceilElement.setAttribute('data-row', `${rowIndex}`);
-      ceilElement.setAttribute('data-cell', `${i}`);
-      ceilElement.addEventListener("click", (e) => cellClickHandler(e))
+      ceilElement.setAttribute("data-row", `${rowIndex}`);
+      ceilElement.setAttribute("data-cell", `${i}`);
+      ceilElement.addEventListener("click", (e) => cellClickHandler(e));
       //fill left clue with counter
       if (
         (puzzle[rowIndex][i + 1] === 0 || i + 1 >= rowArr.length) &&
@@ -147,36 +166,38 @@ const cellClickHandler = (e) => {
   //made userMatrix;
   const row = e.target.dataset.row;
   const cell = e.target.dataset.cell;
-  userPuzzle[row][cell] = e.target.classList.contains("filled") ?  1 : 0;
+  userPuzzle[row][cell] = e.target.classList.contains("filled") ? 1 : 0;
 
   if (areArraysEqual(userPuzzle, currentPuzzle)) {
-    renderModal('Congratulations!')
+    renderModal("Congratulations!");
   } else {
     console.log("Not Equal");
   }
+};
 
-}
+const renderModal = (result) => {
+  const modal = renderElement("div", "modal", mainContainer);
+  const modalContent = renderElement("div", "modal-content", modal);
+  const resultMessage = renderElement("h2", "result-message", modalContent, {
+    innerText: result,
+  });
+  const startButton = renderElement("button", "modal-button", modalContent, {
+    innerText: "Play Again",
+  });
+  startButton.addEventListener("click", () => handleStartButton());
+  modal.style.display = "flex";
+};
 
-  const renderModal = (result) => {
-    const modal = renderElement("div", "modal", mainContainer);
-    const modalContent = renderElement("div", "modal-content", modal);
-    const resultMessage = renderElement("h2", "result-message", modalContent, {innerText: result});
-  
-    const startButton = renderElement("button", "modal-button", modalContent, {innerText: "Play Again"});
-    startButton.addEventListener("click", () => handleStartButton());
-    modal.style.display = "flex";
-  }
+const handleStartButton = () => {
+  userPuzzle = [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+  ];
 
-  const handleStartButton = () => {
-    userPuzzle = [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-    ];
-
-    initialRender();
-  }
+  initialRender();
+};
 
 initialRender();
