@@ -45,6 +45,14 @@ const puzzleSnowFlake = [
   [1, 0, 1, 0, 1],
 ];
 
+fetch('data/puzzles.json')
+  .then((response) => response.json())
+  .then(data => {
+    const easyPuzzles = data.levels["easy"];
+    console.log(easyPuzzles);
+  })
+  .catch(error => console.error('Loading JSON error:', error));
+
 
 function areArraysEqual(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2);
