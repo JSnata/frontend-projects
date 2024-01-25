@@ -45,20 +45,22 @@ const puzzleSnowFlake = [
   [1, 0, 1, 0, 1],
 ];
 
-fetch('data/puzzles.json')
-  .then((response) => response.json())
-  .then(data => {
-    const easyPuzzles = data.levels["easy"];
-    console.log(easyPuzzles);
-  })
-  .catch(error => console.error('Loading JSON error:', error));
+let puzzlesData;
 
+fetch("data/puzzles.json")
+  .then((response) => response.json())
+  .then((data) => {
+    puzzlesData = data;
+    renderGameMenu(data);
+  })
+  .catch((error) => console.error("Loading JSON error:", error));
 
 function areArraysEqual(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2);
 }
 
 let mainContainer;
+let gameMenuContainer;
 let nonogramContainer;
 let currentPuzzle = puzzleSnowFlake;
 
@@ -88,8 +90,99 @@ const initialRender = () => {
   document.body.innerHTML = "";
   mainContainer = renderElement("div", "main-container", document.body);
   nonogramContainer = renderElement("div", "nonogram-container", mainContainer);
-  fieldRender(currentPuzzle, "initial");
 };
+
+const renderGameMenu = (data) => {
+  gameMenuContainer = renderElement("div", "game-menu", mainContainer);
+  const gameForm = renderElement("form", "game-menu-form", gameMenuContainer, {
+    id: "gameForm",
+  });
+  const levelLabel = renderElement("label", "game-menu-label", gameForm, {
+    for: "levelSelect",
+  });
+  levelLabel.textContent = 'Choose a level'
+
+  const levelSelect = renderElement("select", "game-menu-select", gameForm, {
+    id: "levelSelect",
+    name: "level",
+  });
+
+  //placeholder level option
+  renderElement("option", "game-menu-option", levelSelect, {
+    value: "",
+    textContent: "-----",
+  });
+
+  //render Level options
+  for (key in data.levels) {
+    renderElement("option", "game-menu-option", levelSelect, {
+      value: key,
+      textContent: key,
+    });
+  }
+
+  const puzzleLabel = renderElement("label", "game-menu-label", gameForm, {
+    for: "puzzleSelect",
+  });
+
+  puzzleLabel.textContent = 'Choose a puzzle';
+
+  const puzzleSelect = renderElement("select", "game-menu-select", gameForm, {
+    id: "puzzleSelect",
+    name: "puzzle",
+  });
+
+  //placeholder level option
+  renderElement("option", "game-menu-option", puzzleSelect, {
+    value: "",
+    textContent: "-----",
+  });
+
+  levelSelect.addEventListener("change", function () {
+    const selectedLevel = levelSelect.value;
+    puzzleSelect.innerHTML = "";
+
+    renderElement("option", "game-menu-option", puzzleSelect, {
+      value: "",
+      textContent: "-----",
+    });
+
+    if (selectedLevel) {
+      const puzzlesForLevel = data.levels[selectedLevel];
+      for (const puzzleKey in puzzlesForLevel) {
+        renderElement("option", "game-menu-option", puzzleSelect, {
+          value: puzzleKey,
+          textContent: puzzleKey,
+        });
+      }
+    }
+  });
+
+  const puzzleButton = renderElement("button", "form-button", gameForm, {
+    type: "button",
+    textContent: "Play!"
+  })
+  const randomButton = renderElement("button", "form-button", gameForm, {
+    type: "button",
+    textContent: "Random Game"
+  })
+
+  puzzleButton.addEventListener("click", (e) => {puzzleButtonHandler(e, levelSelect, puzzleSelect)})
+};
+
+const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
+  e.preventDefault();
+
+  const selectedLevel = levelSelect.value;
+  const selectedPuzzle = puzzleSelect.value;
+  if (selectedLevel && selectedPuzzle) {
+    console.log(selectedLevel, selectedPuzzle);
+    gameMenuContainer.style.display = "none";
+    fieldRender(currentPuzzle, "initial");
+  } else {
+    alert("Choose level and puzzle");
+  }
+}
 
 const fieldRender = (puzzle, fieldMode) => {
   let topClueCounter = 0;

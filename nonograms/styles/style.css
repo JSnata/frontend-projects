@@ -13,6 +13,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column-reverse;
   height: 100vh;
   margin: 0;
 }
@@ -147,4 +148,37 @@ body {
   cursor: pointer;
   box-shadow: none;
   transition: all 0.1s ease-in-out;
+}
+
+.form-button {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  min-width: 150px;
+  border: none;
+  border-radius: 50px;
+  text-decoration: none;
+  background-color: rgb(29, 36, 67);
+  cursor: pointer;
+  box-shadow: none;
+  transition: all 0.1s ease-in-out;
+}
+.game-menu-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.game-menu-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.game-menu-select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
 }
