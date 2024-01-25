@@ -205,20 +205,21 @@ const fieldRender = (puzzle, puzzleName, fieldMode) => {
 
     rowArr.forEach((el, i) => {
       //cells rendering
-      let ceilElement;
+      let cellElement;
       if (el === 1) {
-        ceilElement =
+        cellElement =
           fieldMode !== "initial"
             ? renderElement("div", "cell filled", row)
             : renderElement("div", "cell", row);
         leftClueCounter += 1;
       } else {
         leftClueCounter = 0;
-        ceilElement = renderElement("div", "cell", row);
+        cellElement = renderElement("div", "cell", row);
       }
-      ceilElement.setAttribute("data-row", `${rowIndex}`);
-      ceilElement.setAttribute("data-cell", `${i}`);
-      ceilElement.addEventListener("click", (e) => cellClickHandler(e));
+      cellElement.setAttribute("data-row", `${rowIndex}`);
+      cellElement.setAttribute("data-cell", `${i}`);
+      cellElement.addEventListener("click", (e) => cellClickHandler(e));
+      cellElement.addEventListener("contextmenu", (e) => cellRightClickHandler(e));
       //fill left clue with counter
       if (
         (puzzle[rowIndex][i + 1] === 0 || i + 1 >= rowArr.length) &&
@@ -281,6 +282,15 @@ const cellClickHandler = (e) => {
     console.log("Not Equal");
   }
 };
+
+const cellRightClickHandler = (e) => {
+  e.preventDefault();
+  e.target.classList.toggle("crossed");
+  if(e.target.classList.contains("filled")){
+    e.target.classList.remove("filled");
+    currentUserPuzzle[row][cell] = 0;
+  }
+}
 
 const renderModal = (result) => {
   const modal = renderElement("div", "modal", mainContainer);

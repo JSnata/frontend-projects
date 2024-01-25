@@ -71,6 +71,29 @@ body {
   background-color: black;
 }
 
+.crossed {
+  position: relative;
+}
+
+.crossed::before,
+.crossed::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background-color: rgb(0, 0, 0);
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.crossed::before {
+  transform: rotate(45deg);
+}
+
+.crossed::after {
+  transform: rotate(-45deg);
+}
 
 .clue.--left, .clue.--empty {
   min-width: 30px;
