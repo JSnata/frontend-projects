@@ -1,51 +1,51 @@
-let userPuzzle = [
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0],
-];
-
-let userPuzzleMiddle = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
-
-let userPuzzleHard = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
-
-const puzzleSnowFlake = [
-  [1, 0, 1, 0, 1],
-  [0, 1, 1, 1, 0],
-  [1, 1, 0, 1, 1],
-  [0, 1, 1, 1, 0],
-  [1, 0, 1, 0, 1],
-];
+let userPuzzles = {
+  "easy": [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+  ],
+  "medium": [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ],
+  "hard": [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ]
+}
 
 let puzzlesData;
+
+let mainContainer;
+let gameMenuContainer;
+let nonogramContainer;
+
+let currentLevel;
+let currentPuzzle;
+let currentUserPuzzle;
 
 fetch("data/puzzles.json")
   .then((response) => response.json())
@@ -58,11 +58,6 @@ fetch("data/puzzles.json")
 function areArraysEqual(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2);
 }
-
-let mainContainer;
-let gameMenuContainer;
-let nonogramContainer;
-let currentPuzzle = puzzleSnowFlake;
 
 // const getRandomPuzzle = () => {
 //   const randomIndex = Math.floor(Math.random() * questionsData.length);
@@ -140,6 +135,7 @@ const renderGameMenu = (data) => {
 
   levelSelect.addEventListener("change", function () {
     const selectedLevel = levelSelect.value;
+    
     puzzleSelect.innerHTML = "";
 
     renderElement("option", "game-menu-option", puzzleSelect, {
@@ -172,19 +168,25 @@ const renderGameMenu = (data) => {
 
 const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
   e.preventDefault();
-
   const selectedLevel = levelSelect.value;
   const selectedPuzzle = puzzleSelect.value;
   if (selectedLevel && selectedPuzzle) {
-    console.log(selectedLevel, selectedPuzzle);
+    currentLevel = levelSelect.value;
+
     gameMenuContainer.style.display = "none";
-    fieldRender(currentPuzzle, "initial");
+    currentPuzzle = puzzlesData.levels[levelSelect.value][selectedPuzzle];
+
+    currentUserPuzzle = userPuzzles[selectedLevel];
+    fieldRender(currentPuzzle, puzzleSelect.value, "initial");
   } else {
     alert("Choose level and puzzle");
   }
 }
 
-const fieldRender = (puzzle, fieldMode) => {
+const fieldRender = (puzzle, puzzleName, fieldMode) => {
+  const heading = renderElement("h1", "main-heading", mainContainer, {
+    innerText: "puzzleName"
+  })
   let topClueCounter = 0;
   puzzle.forEach((rowArr, rowIndex) => {
     //top row clues render
@@ -192,6 +194,7 @@ const fieldRender = (puzzle, fieldMode) => {
       getTopClue(puzzle);
     }
     //row cells render
+
     const row = renderElement("div", "row", nonogramContainer);
 
     //left clue render
@@ -267,10 +270,10 @@ const cellClickHandler = (e) => {
   //made userMatrix;
   const row = e.target.dataset.row;
   const cell = e.target.dataset.cell;
-  userPuzzle[row][cell] = e.target.classList.contains("filled") ? 1 : 0;
+  currentUserPuzzle[row][cell] = e.target.classList.contains("filled") ? 1 : 0;
 
-  if (areArraysEqual(userPuzzle, currentPuzzle)) {
-    renderModal("Congratulations!");
+  if (areArraysEqual(currentUserPuzzle, currentPuzzle)) {
+    renderModal("Great! You have solved the nonogram!");
   } else {
     console.log("Not Equal");
   }
@@ -290,15 +293,8 @@ const renderModal = (result) => {
 };
 
 const handleStartButton = () => {
-  userPuzzle = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-  ];
-
   initialRender();
+  renderGameMenu(puzzlesData);
 };
 
 initialRender();
