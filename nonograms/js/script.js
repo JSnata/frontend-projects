@@ -46,6 +46,7 @@ let nonogramContainer;
 let currentLevel;
 let currentPuzzle;
 let currentUserPuzzle;
+let currentPuzzleName;
 
 fetch("data/puzzles.json")
   .then((response) => response.json())
@@ -172,12 +173,13 @@ const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
   const selectedPuzzle = puzzleSelect.value;
   if (selectedLevel && selectedPuzzle) {
     currentLevel = levelSelect.value;
+    currentPuzzleName =  puzzleSelect.value;
 
     gameMenuContainer.style.display = "none";
     currentPuzzle = puzzlesData.levels[levelSelect.value][selectedPuzzle];
 
-    currentUserPuzzle = userPuzzles[selectedLevel];
-    fieldRender(currentPuzzle, puzzleSelect.value, "initial");
+    currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[selectedLevel]));
+    fieldRender(currentPuzzle, currentPuzzleName, "initial");
   } else {
     alert("Choose level and puzzle");
   }
@@ -231,6 +233,7 @@ const fieldRender = (puzzle, puzzleName, fieldMode) => {
       }
     });
   });
+  renderRestartButtons();
 };
 
 const getTopClue = (puzzle) => {
@@ -292,9 +295,29 @@ const renderModal = (result) => {
   modal.style.display = "flex";
 };
 
+renderRestartButtons = () => {
+  const restartContainer = renderElement("div", "restart", mainContainer)
+  const resetButton = renderElement("button", "reset-button", restartContainer, {
+    innerText: "Reset"
+  });
+  resetButton.addEventListener("click", () => {handleResetButton()})
+  const newGameButton = renderElement("button", "restart-button", restartContainer, {
+    innerText: "New Game"
+  })
+  newGameButton.addEventListener("click", () => {handleStartButton()});
+}
+
+
 const handleStartButton = () => {
   initialRender();
   renderGameMenu(puzzlesData);
 };
+
+const handleResetButton = () => {
+  initialRender();
+  currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[currentLevel]));
+  console.log(userPuzzles[currentLevel]);
+  fieldRender(currentPuzzle, currentPuzzleName, "initial");
+}
 
 initialRender();
