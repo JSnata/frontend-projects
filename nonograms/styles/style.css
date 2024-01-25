@@ -186,9 +186,8 @@ body {
 }
 
 .game-menu-form {
-  max-width: 400px;
+  width: 400px;
   margin: 0 auto;
-  
 }
 
 .game-menu-label {
