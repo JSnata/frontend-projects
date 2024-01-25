@@ -94,11 +94,11 @@ body {
 }
 
 .row > *:not(:first-child):not(:last-child):nth-child(5n + 6){
-  border-right: 2px solid var(--border-color);
+  border-right: 2px solid var(--text-color);
 }
 
 .row:nth-child(5n + 7){
-  border-top: 2px solid var(--border-color);
+  border-top: 2px solid var(--text-color);
 }
 
 
@@ -118,7 +118,7 @@ body {
 }
 
 .filled {
-  background-color: var(--border-color);
+  background-color: var(--text-color);
 }
 
 .crossed {
