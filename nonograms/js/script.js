@@ -155,11 +155,11 @@ const renderGameMenu = (data) => {
     }
   });
 
-  const puzzleButton = renderElement("button", "form-button", gameForm, {
+  const puzzleButton = renderElement("button", "primary-button", gameForm, {
     type: "button",
     textContent: "Play!"
   })
-  const randomButton = renderElement("button", "form-button", gameForm, {
+  const randomButton = renderElement("button", "primary-button", gameForm, {
     type: "button",
     textContent: "Random Game"
   })
@@ -187,7 +187,7 @@ const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
 
 const fieldRender = (puzzle, puzzleName, fieldMode) => {
   const heading = renderElement("h1", "main-heading", mainContainer, {
-    innerText: "puzzleName"
+    innerText: puzzleName
   })
   let topClueCounter = 0;
   puzzle.forEach((rowArr, rowIndex) => {
@@ -297,11 +297,11 @@ const renderModal = (result) => {
 
 renderRestartButtons = () => {
   const restartContainer = renderElement("div", "restart", mainContainer)
-  const resetButton = renderElement("button", "reset-button", restartContainer, {
+  const resetButton = renderElement("button", "primary-button", restartContainer, {
     innerText: "Reset"
   });
   resetButton.addEventListener("click", () => {handleResetButton()})
-  const newGameButton = renderElement("button", "restart-button", restartContainer, {
+  const newGameButton = renderElement("button", "primary-button", restartContainer, {
     innerText: "New Game"
   })
   newGameButton.addEventListener("click", () => {handleStartButton()});

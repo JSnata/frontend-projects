@@ -18,6 +18,10 @@ body {
   margin: 0;
 }
 
+.main-heading {
+  font-size: 18px;
+}
+
 .nonogram-container {
   display: flex;
   flex-direction: column;
@@ -30,8 +34,17 @@ body {
   width: 100%;
 }
 
+
 .row > *:not(:first-child):not(:last-child) {
   border-right: 0;
+}
+
+.row > *:not(:first-child):not(:last-child):nth-child(5n + 6){
+  border-right: 2px solid black;
+}
+
+.row:nth-child(5n + 7){
+  border-top: 2px solid black;
 }
 
 
@@ -41,8 +54,8 @@ body {
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: 1px solid rgb(113, 113, 113);
   background-color: #fff;
   display: flex;
@@ -50,16 +63,20 @@ body {
   align-items: center;
 }
 
+.cell{
+  border-right: 2px solid black important!;
+}
+
 .filled {
-  background-color: rgb(29, 36, 67);
+  background-color: black;
 }
 
 
 .clue.--left, .clue.--empty {
-  min-width: 40px;
+  min-width: 30px;
   font-weight: 300;
-  padding: 0 10px 0 0;
-  height: 40px;
+  padding: 0 10px 0 10px;
+  height: 30px;
   border-radius: 5px 0 0 5px;
   border: 1px solid  rgb(113, 113, 113);
   border-right: 2px solid  rgb(113, 113, 113);
@@ -77,9 +94,9 @@ body {
   border-right: 3px solid transparent;
 }
 .clue.--top {
-  width: 40px;
+  width: 30px;
   font-weight: 300;
-  padding: 5px 0;
+  padding: 10px 0 5px 0;
   border: 1px solid  rgb(113, 113, 113);
   border-bottom: 2px solid rgb(113, 113, 113);
   background-color: #fff;
@@ -95,7 +112,7 @@ body {
 .clue-number {
   font-size: 16px;
   font-weight: 300;
-  color:  rgb(29, 36, 67);
+  color: black;
 }
 
 .modal {
@@ -150,7 +167,7 @@ body {
   transition: all 0.1s ease-in-out;
 }
 
-.form-button {
+.primary-button {
   font-size: 14px;
   color: #fff;
   font-weight: 600;
@@ -167,9 +184,11 @@ body {
   box-shadow: none;
   transition: all 0.1s ease-in-out;
 }
+
 .game-menu-form {
   max-width: 400px;
   margin: 0 auto;
+  
 }
 
 .game-menu-label {
