@@ -47,6 +47,7 @@ let currentLevel;
 let currentPuzzle;
 let currentUserPuzzle;
 let currentPuzzleName;
+let isLightTheme = true;
 
 fetch("data/puzzles.json")
   .then((response) => response.json())
@@ -235,6 +236,7 @@ const fieldRender = (puzzle, puzzleName, fieldMode) => {
     });
   });
   renderRestartButtons();
+  renderThemeToggle();
 };
 
 const getTopClue = (puzzle) => {
@@ -304,6 +306,39 @@ const renderModal = (result) => {
   startButton.addEventListener("click", () => handleStartButton());
   modal.style.display = "flex";
 };
+
+renderThemeToggle = () => {
+  const themeToggleContainer = renderElement("div", "theme-toggle-container", mainContainer);
+  const inputThemeToggle = renderElement("input", "theme-toggle-input", themeToggleContainer, {
+    type: "checkbox",
+    id: "theme-toggle"
+  });
+  inputThemeToggle.addEventListener("change", () => {toggleThemeHandler()})
+  const labelThemeToggle = renderElement("label", "", themeToggleContainer, {
+    htmlFor: "theme-toggle"
+  })
+  const spanThemeToggle = renderElement("span", "", themeToggleContainer, {
+    innerText: "Dark Theme"
+  });
+}
+
+const toggleThemeHandler = () => {
+  const root = document.documentElement;
+  if(isLightTheme){
+    isLightTheme = false;
+    root.style.setProperty('--bg-color', 'rgb(42, 42, 42)');
+    root.style.setProperty('--border-color', '#fff');
+    root.style.setProperty('--text-color', '#fff');
+    root.style.setProperty('--primary-color', '#fff');
+  }else {
+    isLightTheme = true;
+    root.style.setProperty('--bg-color', '#fff');
+    root.style.setProperty('--border-color', '#717171');
+    root.style.setProperty('--text-color', '#000');
+    root.style.setProperty('--primary-color', '#1d2443');
+  }
+
+}
 
 renderRestartButtons = () => {
   const restartContainer = renderElement("div", "restart", mainContainer)

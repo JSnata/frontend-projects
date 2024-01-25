@@ -1,5 +1,13 @@
+:root {
+  --bg-color: #fff;
+  --border-color:  #717171;
+  --text-color: #000000;
+  --primary-color: #1d2443;
+}
+
 body {
   font-family: "Inter", sans-serif;
+  background-color: var(--bg-color);
   margin: 0;
   padding: 0;
   display: flex;
@@ -8,6 +16,51 @@ body {
   height: 100vh;
   margin: 0;
 }
+
+.theme-toggle-container {
+  position: relative;
+  display: block;
+  width: 150px;
+  margin-top: 20px;
+}
+
+.theme-toggle-input {
+  display: none;
+}
+
+.theme-toggle-container label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 26px;
+  background-color: #ccc;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.theme-toggle-container label:after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.theme-toggle-input:checked + label:after {
+  transform: translateX(24px);
+}
+
+.theme-toggle-container span {
+  display: block;
+  line-height: 26px;
+  color: var(--text-color);
+}
+
 
 .main-container {
   display: flex;
@@ -20,6 +73,7 @@ body {
 
 .main-heading {
   font-size: 18px;
+  color: var(--text-color);
 }
 
 .nonogram-container {
@@ -40,11 +94,11 @@ body {
 }
 
 .row > *:not(:first-child):not(:last-child):nth-child(5n + 6){
-  border-right: 2px solid black;
+  border-right: 2px solid var(--border-color);
 }
 
 .row:nth-child(5n + 7){
-  border-top: 2px solid black;
+  border-top: 2px solid var(--border-color);
 }
 
 
@@ -56,19 +110,15 @@ body {
 .cell {
   width: 30px;
   height: 30px;
-  border: 1px solid rgb(113, 113, 113);
-  background-color: #fff;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.cell{
-  border-right: 2px solid black important!;
-}
-
 .filled {
-  background-color: black;
+  background-color: var(--border-color);
 }
 
 .crossed {
@@ -81,7 +131,7 @@ body {
   position: absolute;
   height: 2px;
   width: 100%;
-  background-color: rgb(0, 0, 0);
+  background-color: var(--border-color);
   top: 50%;
   left: 0;
   transform: translateY(-50%);
@@ -101,9 +151,9 @@ body {
   padding: 0 10px 0 10px;
   height: 30px;
   border-radius: 5px 0 0 5px;
-  border: 1px solid  rgb(113, 113, 113);
-  border-right: 2px solid  rgb(113, 113, 113);
-  background-color: #fff;
+  border: 1px solid  var(--border-color);
+  border-right: 2px solid  var(--border-color);
+  background-color: var(--bg-color);
   display: flex;
   flex: 1;
   justify-content: flex-end;
@@ -120,9 +170,9 @@ body {
   width: 30px;
   font-weight: 300;
   padding: 10px 0 5px 0;
-  border: 1px solid  rgb(113, 113, 113);
-  border-bottom: 2px solid rgb(113, 113, 113);
-  background-color: #fff;
+  border: 1px solid  var(--border-color);
+  border-bottom: 2px solid var(--border-color);
+  background-color: var(--bg-color);
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
@@ -135,7 +185,7 @@ body {
 .clue-number {
   font-size: 16px;
   font-weight: 300;
-  color: black;
+  color: var(--text-color);
 }
 
 .modal {
@@ -159,21 +209,21 @@ body {
   padding: 16px;
   justify-content: center;
   gap: 20px;
-  background: #fff;
+  background: var(--bg-color);
   margin: 0 40px;
 }
 
 .result-message {
   width: 100%;
   text-align: center;
-  color: rgb(29, 36, 67);
+  color: var(--text-color);
   font-size: 24px;
   font-weight: 600;
 }
 
 .modal-button {
   font-size: 18px;
-  color: #fff;
+  color: var(--bg-color);
   font-weight: 600;
   transition: all 0.3s ease-in-out;
   display: inline-flex;
@@ -184,7 +234,7 @@ body {
   border: none;
   border-radius: 50px;
   text-decoration: none;
-  background-color: rgb(29, 36, 67);
+  background-color: var(--primary-color);
   cursor: pointer;
   box-shadow: none;
   transition: all 0.1s ease-in-out;
@@ -192,7 +242,7 @@ body {
 
 .primary-button {
   font-size: 14px;
-  color: #fff;
+  color: var(--bg-color);
   font-weight: 600;
   display: inline-flex;
   align-items: center;
@@ -202,7 +252,7 @@ body {
   border: none;
   border-radius: 50px;
   text-decoration: none;
-  background-color: rgb(29, 36, 67);
+  background-color: var(--primary-color);
   cursor: pointer;
   box-shadow: none;
   transition: all 0.1s ease-in-out;
@@ -215,6 +265,7 @@ body {
 
 .game-menu-label {
   display: block;
+  color: var(--text-color);
   margin-bottom: 8px;
 }
 
