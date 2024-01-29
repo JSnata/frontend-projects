@@ -166,6 +166,12 @@ const renderGameMenu = (data) => {
     type: "button",
     textContent: "Random Game"
   })
+
+  const continueGameButton = renderElement("button", "primary-button", gameForm, {
+    type: "button",
+    textContent: "Continue last Game"
+  })
+  continueGameButton.addEventListener("click", (e) => {continueGameButtonHandler()})
   puzzleButton.addEventListener("click", (e) => {puzzleButtonHandler(e, levelSelect, puzzleSelect)});
   randomButton.addEventListener("click", (e) => {randomGameButtonHandler(e, data)});
 };
@@ -303,7 +309,7 @@ const cellClickHandler = (e) => {
   const cell = e.target.dataset.cell;
   state.currentUserPuzzle[row][cell] = e.target.classList.contains("filled") ? 1 : 0;
   if (!state.timerInterval) {
-    state.timerInterval = setInterval(updateTimer, 1000);
+    startTimer();
   }
   if (areArraysEqual(state.currentUserPuzzle, state.currentPuzzle)) {
     stopTimer();
@@ -313,6 +319,10 @@ const cellClickHandler = (e) => {
     console.log("Not Equal");
   }
 };
+
+const startTimer = () => {
+  state.timerInterval = setInterval(updateTimer, 1000);
+}
 
 const updateTimer = () => {
   const timerElement = document.getElementById('timer')
@@ -403,10 +413,14 @@ renderRestartButtons = () => {
   const solutionButton = renderElement("button", "primary-button", restartContainer, {
     innerText: "Solution"
   });
-  resetButton.addEventListener("click", () => {handleResetButton()})
   const newGameButton = renderElement("button", "primary-button", restartContainer, {
     innerText: "New Game"
   })
+  const saveGameButton =  renderElement("button", "primary-button", restartContainer, {
+    innerText: "Save Game"
+  });
+  saveGameButton.addEventListener("click", () => {handleSaveGameButton()})
+  resetButton.addEventListener("click", () => {handleResetButton()})
   newGameButton.addEventListener("click", () => {handleStartButton()});
   solutionButton.addEventListener("click", () => {handleSolutionButton()});
 }
@@ -429,4 +443,30 @@ const handleSolutionButton = () => {
   fieldRender(state.currentPuzzle, state.currentPuzzleName, "solution");
 }
 
+const handleSaveGameButton = () => {
+  for(key in state) {
+    localStorage.setItem(`${key}`, JSON.stringify(state[key]));
+  }
+}
+
 initialRender();
+
+function continueGameButtonHandler() {
+  for(key in state) {
+    savedGameState = localStorage.getItem(key);
+    savedGameState = savedGameState ? JSON.parse(savedGameState) : null
+    state[key] = savedGameState;
+  }
+  initialRender();
+  fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
+  startTimer();
+  const cellsElements = document.querySelectorAll(".row .cell");
+  cellsElements.forEach((el) => {
+    const row = el.dataset.row;
+    const cell = el.dataset.cell;
+
+    if(state.currentUserPuzzle[row][cell] ){
+      el.classList.add("filled");
+    }
+  })
+}
