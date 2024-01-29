@@ -63,8 +63,6 @@ function areArraysEqual(arr1, arr2) {
 
 const getRandom = (data, currentValue) => {
   const randomIndex = Math.floor(Math.random() * data.length);
-  console.log(currentValue);
-  console.log(data[randomIndex][0]);
   if(data[randomIndex][0] === currentValue) {
     return getRandom(data, currentValue);
   } else {
@@ -187,7 +185,7 @@ const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
   }
 }
 
-const randomGameButtonHandler = (e, data, currentLevel, currentPuzzle) => {
+const randomGameButtonHandler = (e, data) => {
   const levelsArr = Object.entries(data.levels);
   const randomLevel = getRandom(levelsArr, currentLevel);
   currentLevel = randomLevel[0];
@@ -197,6 +195,7 @@ const randomGameButtonHandler = (e, data, currentLevel, currentPuzzle) => {
   currentPuzzleName = randomPuzzle[0];
   currentPuzzle = randomPuzzle[1];
 
+  currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[currentLevel]));
   gameMenuContainer.style.display = "none";
   fieldRender(currentPuzzle, currentPuzzleName, "initial");
 }
@@ -251,7 +250,7 @@ const fieldRender = (puzzle, puzzleName, fieldMode) => {
     });
   });
   renderRestartButtons();
-  renderThemeToggle();
+  renderThemeToggle(); 
 };
 
 const getTopClue = (puzzle) => {
@@ -360,13 +359,16 @@ renderRestartButtons = () => {
   const resetButton = renderElement("button", "primary-button", restartContainer, {
     innerText: "Reset"
   });
+  const solutionButton = renderElement("button", "primary-button", restartContainer, {
+    innerText: "Solution"
+  });
   resetButton.addEventListener("click", () => {handleResetButton()})
   const newGameButton = renderElement("button", "primary-button", restartContainer, {
     innerText: "New Game"
   })
   newGameButton.addEventListener("click", () => {handleStartButton()});
+  solutionButton.addEventListener("click", () => {handleSolutionButton()});
 }
-
 
 const handleStartButton = () => {
   initialRender();
@@ -376,8 +378,12 @@ const handleStartButton = () => {
 const handleResetButton = () => {
   initialRender();
   currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[currentLevel]));
-  console.log(userPuzzles[currentLevel]);
   fieldRender(currentPuzzle, currentPuzzleName, "initial");
+}
+
+const handleSolutionButton = () => {
+  initialRender();
+  fieldRender(currentPuzzle, currentPuzzleName, "solution");
 }
 
 initialRender();
