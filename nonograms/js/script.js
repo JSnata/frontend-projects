@@ -61,15 +61,16 @@ function areArraysEqual(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2);
 }
 
-// const getRandomPuzzle = () => {
-//   const randomIndex = Math.floor(Math.random() * questionsData.length);
-//   if(randomIndex === oldQuestionIndex) {
-//     return getRandomPuzzle();
-//   } else {
-//     oldQuestionIndex = randomIndex;
-//     return questionsData[randomIndex];
-//   }
-// };
+const getRandom = (data, currentValue) => {
+  const randomIndex = Math.floor(Math.random() * data.length);
+  console.log(currentValue);
+  console.log(data[randomIndex][0]);
+  if(data[randomIndex][0] === currentValue) {
+    return getRandom(data, currentValue);
+  } else {
+    return data[randomIndex];
+  }
+};
 
 const renderElement = (child, className, parent, attr) => {
   const element = document.createElement(child);
@@ -164,8 +165,8 @@ const renderGameMenu = (data) => {
     type: "button",
     textContent: "Random Game"
   })
-
-  puzzleButton.addEventListener("click", (e) => {puzzleButtonHandler(e, levelSelect, puzzleSelect)})
+  puzzleButton.addEventListener("click", (e) => {puzzleButtonHandler(e, levelSelect, puzzleSelect)});
+  randomButton.addEventListener("click", (e) => {randomGameButtonHandler(e, data)});
 };
 
 const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
@@ -184,6 +185,20 @@ const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
   } else {
     alert("Choose level and puzzle");
   }
+}
+
+const randomGameButtonHandler = (e, data, currentLevel, currentPuzzle) => {
+  const levelsArr = Object.entries(data.levels);
+  const randomLevel = getRandom(levelsArr, currentLevel);
+  currentLevel = randomLevel[0];
+
+  const puzzlesArr = Object.entries(randomLevel[1]);
+  const randomPuzzle = getRandom(puzzlesArr, currentPuzzle);
+  currentPuzzleName = randomPuzzle[0];
+  currentPuzzle = randomPuzzle[1];
+
+  gameMenuContainer.style.display = "none";
+  fieldRender(currentPuzzle, currentPuzzleName, "initial");
 }
 
 const fieldRender = (puzzle, puzzleName, fieldMode) => {
