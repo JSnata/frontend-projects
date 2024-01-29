@@ -49,6 +49,9 @@ let currentUserPuzzle;
 let currentPuzzleName;
 let isLightTheme = true;
 
+let timerInterval;
+let seconds = 0;
+
 fetch("data/puzzles.json")
   .then((response) => response.json())
   .then((data) => {
@@ -250,7 +253,8 @@ const fieldRender = (puzzle, puzzleName, fieldMode) => {
     });
   });
   renderRestartButtons();
-  renderThemeToggle(); 
+  renderThemeToggle();
+  renderTimer();
 };
 
 const getTopClue = (puzzle) => {
@@ -284,6 +288,13 @@ const getTopClue = (puzzle) => {
   });
 };
 
+const renderTimer = () => {
+  const timerElement = renderElement("div", "timer", mainContainer, {
+    id: "timer",
+    innerText: "00:00"
+  });
+}
+
 const cellClickHandler = (e) => {
   e.target.classList.toggle("filled");
 
@@ -291,13 +302,43 @@ const cellClickHandler = (e) => {
   const row = e.target.dataset.row;
   const cell = e.target.dataset.cell;
   currentUserPuzzle[row][cell] = e.target.classList.contains("filled") ? 1 : 0;
-
+  if (!timerInterval) {
+    timerInterval = setInterval(updateTimer, 1000);
+  }
   if (areArraysEqual(currentUserPuzzle, currentPuzzle)) {
-    renderModal("Great! You have solved the nonogram!");
+    stopTimer();
+    const formattedTime = document.getElementById('timer').textContent;
+    renderModal(`Great! You have solved the nonogram in ${formattedTime} seconds!`);
   } else {
     console.log("Not Equal");
   }
 };
+
+const updateTimer = () => {
+  const timerElement = document.getElementById('timer')
+
+  seconds += 1;
+  let minutesCounter = Math.floor(seconds / 60);
+  let secondsCounter = seconds % 60;
+  minutesCounter = minutesCounter < 10 ? `0${minutesCounter}` : minutesCounter;
+  secondsCounter = secondsCounter < 10 ? `0${secondsCounter}` : secondsCounter;
+
+  const renderTime = `${minutesCounter}:${secondsCounter}`;
+  timerElement.innerText = renderTime;
+}
+
+const stopTimer = () => {
+  seconds = 0;
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+const resetTimer = () => {
+  const timerElement = document.getElementById('timer');
+  stopTimer();
+  seconds = 0;
+  timerElement.innerText = '00:00';
+}
 
 const cellRightClickHandler = (e) => {
   e.preventDefault();
@@ -372,16 +413,19 @@ renderRestartButtons = () => {
 
 const handleStartButton = () => {
   initialRender();
+  stopTimer();
   renderGameMenu(puzzlesData);
 };
 
 const handleResetButton = () => {
+  resetTimer();
   initialRender();
   currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[currentLevel]));
   fieldRender(currentPuzzle, currentPuzzleName, "initial");
 }
 
 const handleSolutionButton = () => {
+  stopTimer();
   initialRender();
   fieldRender(currentPuzzle, currentPuzzleName, "solution");
 }
