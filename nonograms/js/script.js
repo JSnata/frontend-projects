@@ -37,25 +37,25 @@ let userPuzzles = {
   ]
 }
 
-let puzzlesData;
+let state = {
+  puzzlesData: null, //object
+  currentLevel: null, //string
+  currentPuzzle: null, //array
+  currentUserPuzzle: null, //array
+  currentPuzzleName: null, //string
+  isLightTheme: true, //boolean
+  timerInterval: null, //func
+  seconds: 0, //number
+};
 
 let mainContainer;
 let gameMenuContainer;
 let nonogramContainer;
 
-let currentLevel;
-let currentPuzzle;
-let currentUserPuzzle;
-let currentPuzzleName;
-let isLightTheme = true;
-
-let timerInterval;
-let seconds = 0;
-
 fetch("data/puzzles.json")
   .then((response) => response.json())
   .then((data) => {
-    puzzlesData = data;
+    state.puzzlesData = data;
     renderGameMenu(data);
   })
   .catch((error) => console.error("Loading JSON error:", error));
@@ -175,14 +175,14 @@ const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
   const selectedLevel = levelSelect.value;
   const selectedPuzzle = puzzleSelect.value;
   if (selectedLevel && selectedPuzzle) {
-    currentLevel = levelSelect.value;
-    currentPuzzleName =  puzzleSelect.value;
+    state.currentLevel = levelSelect.value;
+    state.currentPuzzleName =  puzzleSelect.value;
 
     gameMenuContainer.style.display = "none";
-    currentPuzzle = puzzlesData.levels[levelSelect.value][selectedPuzzle];
+    state.currentPuzzle = state.puzzlesData.levels[levelSelect.value][selectedPuzzle];
 
-    currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[selectedLevel]));
-    fieldRender(currentPuzzle, currentPuzzleName, "initial");
+    state.currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[selectedLevel]));
+    fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
   } else {
     alert("Choose level and puzzle");
   }
@@ -190,17 +190,17 @@ const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
 
 const randomGameButtonHandler = (e, data) => {
   const levelsArr = Object.entries(data.levels);
-  const randomLevel = getRandom(levelsArr, currentLevel);
-  currentLevel = randomLevel[0];
+  const randomLevel = getRandom(levelsArr, state.currentLevel);
+  state.currentLevel = randomLevel[0];
 
   const puzzlesArr = Object.entries(randomLevel[1]);
-  const randomPuzzle = getRandom(puzzlesArr, currentPuzzle);
-  currentPuzzleName = randomPuzzle[0];
-  currentPuzzle = randomPuzzle[1];
+  const randomPuzzle = getRandom(puzzlesArr, state.currentPuzzle);
+  state.currentPuzzleName = randomPuzzle[0];
+  state.currentPuzzle = randomPuzzle[1];
 
-  currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[currentLevel]));
+  state.currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[state.currentLevel]));
   gameMenuContainer.style.display = "none";
-  fieldRender(currentPuzzle, currentPuzzleName, "initial");
+  fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
 }
 
 const fieldRender = (puzzle, puzzleName, fieldMode) => {
@@ -301,11 +301,11 @@ const cellClickHandler = (e) => {
   //made userMatrix;
   const row = e.target.dataset.row;
   const cell = e.target.dataset.cell;
-  currentUserPuzzle[row][cell] = e.target.classList.contains("filled") ? 1 : 0;
-  if (!timerInterval) {
-    timerInterval = setInterval(updateTimer, 1000);
+  state.currentUserPuzzle[row][cell] = e.target.classList.contains("filled") ? 1 : 0;
+  if (!state.timerInterval) {
+    state.timerInterval = setInterval(updateTimer, 1000);
   }
-  if (areArraysEqual(currentUserPuzzle, currentPuzzle)) {
+  if (areArraysEqual(state.currentUserPuzzle, state.currentPuzzle)) {
     stopTimer();
     const formattedTime = document.getElementById('timer').textContent;
     renderModal(`Great! You have solved the nonogram in ${formattedTime} seconds!`);
@@ -317,9 +317,9 @@ const cellClickHandler = (e) => {
 const updateTimer = () => {
   const timerElement = document.getElementById('timer')
 
-  seconds += 1;
-  let minutesCounter = Math.floor(seconds / 60);
-  let secondsCounter = seconds % 60;
+  state.seconds += 1;
+  let minutesCounter = Math.floor(state.seconds / 60);
+  let secondsCounter = state.seconds % 60;
   minutesCounter = minutesCounter < 10 ? `0${minutesCounter}` : minutesCounter;
   secondsCounter = secondsCounter < 10 ? `0${secondsCounter}` : secondsCounter;
 
@@ -328,15 +328,15 @@ const updateTimer = () => {
 }
 
 const stopTimer = () => {
-  seconds = 0;
-  clearInterval(timerInterval);
-  timerInterval = null;
+  state.seconds = 0;
+  clearInterval(state.timerInterval);
+  state.timerInterval = null;
 }
 
 const resetTimer = () => {
   const timerElement = document.getElementById('timer');
   stopTimer();
-  seconds = 0;
+  state.seconds = 0;
   timerElement.innerText = '00:00';
 }
 
@@ -345,7 +345,7 @@ const cellRightClickHandler = (e) => {
   e.target.classList.toggle("crossed");
   if(e.target.classList.contains("filled")){
     e.target.classList.remove("filled");
-    currentUserPuzzle[row][cell] = 0;
+    state.currentUserPuzzle[row][cell] = 0;
   }
 }
 
@@ -379,14 +379,14 @@ renderThemeToggle = () => {
 
 const toggleThemeHandler = () => {
   const root = document.documentElement;
-  if(isLightTheme){
-    isLightTheme = false;
+  if(state.isLightTheme){
+    state.isLightTheme = false;
     root.style.setProperty('--bg-color', 'rgb(42, 42, 42)');
     root.style.setProperty('--border-color', '#fff');
     root.style.setProperty('--text-color', '#fff');
     root.style.setProperty('--primary-color', '#fff');
   }else {
-    isLightTheme = true;
+    state.isLightTheme = true;
     root.style.setProperty('--bg-color', '#fff');
     root.style.setProperty('--border-color', '#717171');
     root.style.setProperty('--text-color', '#000');
@@ -414,20 +414,19 @@ renderRestartButtons = () => {
 const handleStartButton = () => {
   initialRender();
   stopTimer();
-  renderGameMenu(puzzlesData);
+  renderGameMenu(state.puzzlesData);
 };
 
 const handleResetButton = () => {
   resetTimer();
   initialRender();
-  currentUserPuzzle = JSON.parse(JSON.stringify(userPuzzles[currentLevel]));
-  fieldRender(currentPuzzle, currentPuzzleName, "initial");
+  fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
 }
 
 const handleSolutionButton = () => {
   stopTimer();
   initialRender();
-  fieldRender(currentPuzzle, currentPuzzleName, "solution");
+  fieldRender(state.currentPuzzle, state.currentPuzzleName, "solution");
 }
 
 initialRender();
