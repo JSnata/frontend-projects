@@ -103,11 +103,25 @@ const renderTopClue = (puzzle) => {
 };
 
 export const cellRightClickHandler = (e) => {
+  const markCrossSoundElement = document.getElementById("markCrossSoundElement");
+  const markWhiteSoundElement = document.getElementById("markWhiteSoundElement");
+  console.log(markCrossSoundElement);
+  const row = e.target.dataset.row;
+  const cell = e.target.dataset.cell;
   e.preventDefault();
   e.target.classList.toggle("crossed");
   if (e.target.classList.contains("filled")) {
     e.target.classList.remove("filled");
     state.currentUserPuzzle[row][cell] = 0;
+    markCrossSoundElement.currentTime = 0;
+    markCrossSoundElement.play();
+  }
+  if (e.target.classList.contains("crossed")){
+    markCrossSoundElement.currentTime = 0;
+    markCrossSoundElement.play();
+  } else {
+    markWhiteSoundElement.currentTime = 0;
+    markWhiteSoundElement.play();
   }
 };
 
@@ -120,7 +134,12 @@ export const cellClickHandler = (e) => {
   //made userMatrix;
   const row = e.target.dataset.row;
   const cell = e.target.dataset.cell;
-
+  if(e.target.classList.contains("crossed")){
+    e.target.classList.remove("crossed");
+    state.currentUserPuzzle[row][cell] = 1;
+    markBlackSoundElement.currentTime = 0;
+    markBlackSoundElement.play();
+  }
   if(e.target.classList.contains("filled")){
     state.currentUserPuzzle[row][cell] = 1;
     markBlackSoundElement.currentTime = 0;
