@@ -88,6 +88,42 @@ const renderElement = (child, className, parent, attr) => {
   return element;
 };
 
+const renderAudioElements = () => {
+  const soundsContainerElement = renderElement("div", "", mainContainer);
+
+  const winSoundElement = renderElement("audio", "", soundsContainerElement, {
+    id: "winSound"
+  });
+  const winSoundSource = renderElement("source", "", winSoundElement, {
+    src: "./assets/audio/win.wav",
+    type: "audio/wav"
+  });
+
+  const markBlackSoundElement = renderElement("audio", "", soundsContainerElement, {
+    id: "markBlackSoundElement"
+  });
+  const markBlackSoundSource = renderElement("source", "", markBlackSoundElement, {
+    src: "./assets/audio/mark-black.mp3",
+    type: "audio/mp3"
+  });
+
+  const markCrossSoundElement = renderElement("audio", "", soundsContainerElement, {
+    id: "markCrossSoundElement"
+  });
+  const markCrossSoundSource = renderElement("source", "", markCrossSoundElement, {
+    src: "./assets/audio/mark-cross.mp3",
+    type: "audio/mp3"
+  });
+
+  const markWhiteSoundElement = renderElement("audio", "", soundsContainerElement, {
+    id: "markWhiteSoundElement"
+  });
+  const markWhiteSoundSource = renderElement("source", "", markWhiteSoundElement, {
+    src: "./assets/audio/mark-white.mp3",
+    type: "audio/mp3"
+  });
+}
+
 const renderHighScoresTable = () => {
   if (state.highScores.length) {
     const highScoresTable = renderElement("div", "highscores", mainContainer, {
@@ -126,6 +162,7 @@ const initialRender = () => {
   document.body.innerHTML = "";
   mainContainer = renderElement("div", "main-container", document.body);
   nonogramContainer = renderElement("div", "nonogram-container", mainContainer);
+  renderAudioElements();
   state.highScores = JSON.parse(
     localStorage.getItem("highScores") ? localStorage.getItem("highScores") : []
   );
@@ -320,6 +357,7 @@ const fieldRender = (puzzle, puzzleName, fieldMode) => {
   renderRestartButtons();
   renderThemeToggle();
   renderTimer();
+  console.log('Solution/Решение:', state.currentPuzzle);
 };
 
 const getTopClue = (puzzle) => {
@@ -361,14 +399,26 @@ const renderTimer = () => {
 };
 
 const cellClickHandler = (e) => {
+  const markBlackSoundElement = document.getElementById("markBlackSoundElement");
+  const markWhiteSoundElement = document.getElementById("markWhiteSoundElement");
+
   e.target.classList.toggle("filled");
 
   //made userMatrix;
   const row = e.target.dataset.row;
   const cell = e.target.dataset.cell;
-  state.currentUserPuzzle[row][cell] = e.target.classList.contains("filled")
-    ? 1
-    : 0;
+
+  if(e.target.classList.contains("filled")){
+    state.currentUserPuzzle[row][cell] = 1;
+    markBlackSoundElement.currentTime = 0;
+    markBlackSoundElement.play();
+
+  } else {
+    state.currentUserPuzzle[row][cell] = 0;
+    markWhiteSoundElement.currentTime = 0;
+    markWhiteSoundElement.play();
+  }
+
   if (!state.timerInterval) {
     startTimer();
   }
@@ -380,7 +430,10 @@ const cellClickHandler = (e) => {
 };
 
 const winGameHandler = () => {
+  const winSound = document.getElementById('winSound');
   const formattedTime = document.getElementById("timer").textContent;
+  winSound.currentTime = 0;
+  winSound.play();
 
   renderModal(
     `Great! You have solved the nonogram in ${formattedTime} seconds!`
