@@ -8,6 +8,7 @@ export const state = {
   currentLevel: null, //string
   currentPuzzle: null, //array
   currentUserPuzzle: null, //array
+  currentUserPuzzleCrossed: null, //array
   currentPuzzleName: null, //string
   isLightTheme: true, //boolean
   timerInterval: null, //number

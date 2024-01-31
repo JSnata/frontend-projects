@@ -1,6 +1,7 @@
-import { renderElement } from '../render.js';
+import { renderElement, initialRender } from '../render.js';
 import { getRandom, state } from '../main.js';
 import { fieldRender } from './field.js';
+import { startTimer } from './timer.js';
 
 export const renderStartGameMenu = (data) => {
   const gameMenuContainer = renderElement("div", "game-menu", mainContainer, {
@@ -126,6 +127,9 @@ export const continueGameButtonHandler = () => {
     if (state.currentUserPuzzle[row][cell]) {
       el.classList.add("filled");
     }
+    if (state.currentUserPuzzleCrossed[row][cell]) {
+      el.classList.add("crossed");
+    }
   });
 };
 
@@ -140,6 +144,9 @@ export const randomGameButtonHandler = (e, data) => {
   state.currentPuzzle = randomPuzzle[1];
 
   state.currentUserPuzzle = JSON.parse(
+    JSON.stringify(state.userPuzzles[state.currentLevel])
+  );
+  state.currentUserPuzzleCrossed = JSON.parse(
     JSON.stringify(state.userPuzzles[state.currentLevel])
   );
   gameMenuContainer.style.display = "none";
@@ -160,6 +167,9 @@ export const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
       state.puzzlesData.levels[levelSelect.value][selectedPuzzle];
 
     state.currentUserPuzzle = JSON.parse(
+      JSON.stringify(state.userPuzzles[selectedLevel])
+    );
+    state.currentUserPuzzleCrossed = JSON.parse(
       JSON.stringify(state.userPuzzles[selectedLevel])
     );
     fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");

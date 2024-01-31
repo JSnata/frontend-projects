@@ -113,13 +113,16 @@ export const cellRightClickHandler = (e) => {
   if (e.target.classList.contains("filled")) {
     e.target.classList.remove("filled");
     state.currentUserPuzzle[row][cell] = 0;
+    state.currentUserPuzzleCrossed[row][cell] = 1;
     markCrossSoundElement.currentTime = 0;
     markCrossSoundElement.play();
   }
   if (e.target.classList.contains("crossed")){
+    state.currentUserPuzzleCrossed[row][cell] = 1;
     markCrossSoundElement.currentTime = 0;
     markCrossSoundElement.play();
   } else {
+    state.currentUserPuzzleCrossed[row][cell] = 0;
     markWhiteSoundElement.currentTime = 0;
     markWhiteSoundElement.play();
   }
