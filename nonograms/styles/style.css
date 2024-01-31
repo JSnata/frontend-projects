@@ -291,10 +291,15 @@ body {
   margin-bottom: 16px;
 }
 
-
 .timer {
   margin-top: 20px;
   font-size: 24px;
+}
+
+.validation-message {
+  font-size: 12px;
+  margin: 5px 0;
+  color: red;
 }
 
 table {

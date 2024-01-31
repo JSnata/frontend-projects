@@ -13,7 +13,9 @@ export const renderStartGameMenu = (data) => {
     for: "levelSelect",
   });
   levelLabel.textContent = "Choose a level";
-
+  const levelValidationMessage = renderElement("p", "validation-message", gameForm, {
+    id: "levelValidationMessage",
+  });
   const levelSelect = renderElement("select", "game-menu-select", gameForm, {
     id: "levelSelect",
     name: "level",
@@ -38,7 +40,9 @@ export const renderStartGameMenu = (data) => {
   });
 
   puzzleLabel.textContent = "Choose a puzzle";
-
+  const puzzleValidationMessage = renderElement("p", "validation-message", gameForm, {
+    id: "puzzleValidationMessage",
+  });
   const puzzleSelect = renderElement("select", "game-menu-select", gameForm, {
     id: "puzzleSelect",
     name: "puzzle",
@@ -52,6 +56,7 @@ export const renderStartGameMenu = (data) => {
 
   levelSelect.addEventListener("change", function () {
     const selectedLevel = levelSelect.value;
+    levelValidationMessage.innerText = "";
 
     puzzleSelect.innerHTML = "";
 
@@ -69,6 +74,10 @@ export const renderStartGameMenu = (data) => {
         });
       }
     }
+  });
+
+  puzzleSelect.addEventListener("change", function () {
+    puzzleValidationMessage.innerText = "";
   });
 
   const puzzleButton = renderElement("button", "primary-button", gameForm, {
@@ -155,6 +164,13 @@ export const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
     );
     fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
   } else {
-    alert("Choose level and puzzle");
+    if(!selectedLevel) {
+      const levelValidationMessage = document.getElementById("levelValidationMessage");
+      levelValidationMessage.innerText = "Select a game level"
+    }
+    if(!selectedPuzzle) {
+      const puzzleValidationMessage = document.getElementById("puzzleValidationMessage");
+      puzzleValidationMessage.innerText = "Select a puzzle"
+    }
   }
 };
