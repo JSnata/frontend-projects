@@ -3,6 +3,8 @@
   --border-color:  #717171;
   --text-color: #000000;
   --primary-color: #1d2443;
+  --primary-color-hover: #2d386b;
+  --primary-color-active: #4557a7;
 }
 
 body {
@@ -261,6 +263,15 @@ body {
 .primary-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.primary-button:hover:not(:disabled){
+  background-color: var(--primary-color-hover);
+}
+
+.primary-button:active:not(:disabled) {
+  background-color: var(--primary-color-active);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
 }
 
 .game-menu-form {
