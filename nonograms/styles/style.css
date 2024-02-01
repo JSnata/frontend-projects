@@ -306,13 +306,15 @@ body {
   cursor: not-allowed;
 }
 
-.primary-button:hover:not(:disabled){
-  background-color: var(--primary-color-hover);
-}
-
-.primary-button:active:not(:disabled) {
-  background-color: var(--primary-color-active);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
+@media (hover: hover) and (pointer: fine){
+  .primary-button:hover:not(:disabled){
+    background-color: var(--primary-color-hover);
+  }
+  
+  .primary-button:active:not(:disabled) {
+    background-color: var(--primary-color-active);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
+  }
 }
 
 .game-menu {
