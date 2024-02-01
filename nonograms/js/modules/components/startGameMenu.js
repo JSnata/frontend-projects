@@ -110,29 +110,42 @@ export const renderStartGameMenu = (data) => {
   randomButton.addEventListener("click", (e) => {
     randomGameButtonHandler(e, data);
   });
+
+    let savedGameState = localStorage.getItem("currentPuzzleName");
+    savedGameState = savedGameState ? JSON.parse(savedGameState) : null;
+    if (!savedGameState) {
+      continueGameButton.disabled = true;
+    }
 };
 
 export const continueGameButtonHandler = () => {
+  let savedGameState;
   for (let key in state) {
-    let savedGameState = localStorage.getItem(key);
+    savedGameState = localStorage.getItem(key);
     savedGameState = savedGameState ? JSON.parse(savedGameState) : null;
-    state[key] = savedGameState;
+    if (savedGameState) {
+      state[key] = savedGameState;
+    }
   }
-  startTimer();
-  initialRender();
-  fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
-  const cellsElements = document.querySelectorAll(".row .cell");
-  cellsElements.forEach((el) => {
-    const row = el.dataset.row;
-    const cell = el.dataset.cell;
-
-    if (state.currentUserPuzzle[row][cell]) {
-      el.classList.add("filled");
+  if(savedGameState){
+    if(state.seconds){
+      startTimer();
     }
-    if (state.currentUserPuzzleCrossed[row][cell]) {
-      el.classList.add("crossed");
-    }
-  });
+    initialRender();
+    fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
+    const cellsElements = document.querySelectorAll(".row .cell");
+    cellsElements.forEach((el) => {
+      const row = el.dataset.row;
+      const cell = el.dataset.cell;
+  
+      if (state.currentUserPuzzle[row][cell]) {
+        el.classList.add("filled");
+      }
+      if (state.currentUserPuzzleCrossed[row][cell]) {
+        el.classList.add("crossed");
+      }
+    });
+  }
 };
 
 export const randomGameButtonHandler = (e, data) => {

@@ -64,6 +64,12 @@ export const renderUserMenu = () => {
 const handleResetButton = () => {
   resetTimer();
   initialRender();
+  state.currentUserPuzzle = JSON.parse(
+    JSON.stringify(state.userPuzzles[state.currentLevel])
+  );
+  state.currentUserPuzzleCrossed = JSON.parse(
+    JSON.stringify(state.userPuzzles[state.currentLevel])
+  );
   fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
 };
 
