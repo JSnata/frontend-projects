@@ -1,7 +1,8 @@
 :root {
-  --bg-color: #fff;
+  --bg-color: #fafafa;
   --border-color:  #717171;
   --text-color: #000000;
+  --text-color-secondary: #4a4a4a;
   --primary-color: #1d2443;
   --primary-color-hover: #2d386b;
   --primary-color-active: #4557a7;
@@ -12,18 +13,32 @@ body {
   background-color: var(--bg-color);
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.main-header {
+  width: 100%;
+  padding: 0 15px;
+  box-shadow: 0 1px 10px 2px rgba(66, 68, 90, 0.17);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  justify-content: space-between;
+  height: 60px;
+  gap: 5px;
 }
 
 .theme-toggle-container {
   position: relative;
   display: block;
   width: 150px;
-  margin-top: 20px;
 }
 
 .theme-toggle-input {
@@ -63,19 +78,45 @@ body {
   color: var(--text-color);
 }
 
+.sidebar-container {
+  height: 100%;
+  padding: 30px 15px;
+  border-right: 1px solid #dadada;
+}
+
+.main-content-wrapper {
+  position: relative;
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  gap: 15px;
+  flex-grow: 1;
+}
 
 .main-container {
+  order: 2;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
-  margin: 0;
+  height: 100%;
+  padding: 30px 0;
+  width: 100%;
+  gap: 10px;
+  flex-grow: 1;
 }
 
-.main-heading {
+.puzzle-name-container {
   font-size: 18px;
+  padding: 0;
+  margin: 0;
   color: var(--text-color);
+  justify-self: center;
+  text-align: center;
 }
 
 .nonogram-container {
@@ -274,26 +315,65 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
 }
 
+.game-menu {
+  max-width: 500px;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
 .game-menu-form {
-  width: 400px;
+  background-color: var(--bg-color);
+  padding: 20px;
+  box-shadow: 0px 0px 20px -12px rgba(66, 68, 90, 1);
+  border-radius: 6px;
+}
+
+.user-menu {
+  width: 100%;
+  max-width: 500px;
   margin: 0 auto;
 }
 
+.actions-container,
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.user-menu .primary-button ,
+.actions-container .primary-button {
+  min-width: auto;
+  width: 100%;
+}
+
 .game-menu-label {
+  font-size: 14px;
   display: block;
-  color: var(--text-color);
+  color: var(--text-color-secondary);
   margin-bottom: 8px;
 }
 
 .game-menu-select {
   width: 100%;
-  padding: 8px;
+  padding: 8px 12px;
   margin-bottom: 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.game-menu-select:last-of-type {
+  margin-bottom: 0;
 }
 
 .timer {
-  margin-top: 20px;
   font-size: 24px;
+  color: var(--text-color);
+  justify-self: end;
 }
 
 .validation-message {
@@ -311,7 +391,9 @@ table {
 
 th, td {
   border: 1px solid #ddd;
+  background-color: #fafafa;
   padding: 8px;
+  text-align: left;
 }
 
 th {
@@ -320,4 +402,69 @@ th {
 
 tbody tr:nth-child(even) {
   background-color: #f9f9f9;
+}
+
+.highscores {
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Mobile */
+@media only screen and (max-width: 1200px) {
+  .main-content-wrapper {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .sidebar-container {
+    border: none;
+    width: 100%;
+  }
+
+  .main-container {
+    flex-grow: unset;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .main-container {
+    padding: 0;
+  }
+
+  .sidebar-container {
+    padding: 20px 15px 15px;
+    height: auto;
+    align-self: start;
+  }
+
+  .game-menu {
+    gap: 20px;
+  }
+
+  .user-menu,
+  .actions-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px;
+  }
+
+  .game-menu-form {
+    padding: 15px;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .cell {
+    width: 25px;
+    height: 25px;
+  }
+
+  .clue.--top {
+    width: 25px;
+  }
+
+  .clue.--left, .clue.--empty {
+    min-width: 25px;
+    height: 25px;
+  }
 }

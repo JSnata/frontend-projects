@@ -8,7 +8,7 @@ import {
 } from '../render.js';
 
 export const renderTimer = () => {
-  const timerElement = renderElement("div", "timer", mainContainer, {
+  const timerElement = renderElement("div", "timer", document.getElementById('mainHeader'), {
     id: "timer",
     innerText: "00:00",
   });

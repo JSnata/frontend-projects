@@ -81,11 +81,13 @@ export const renderStartGameMenu = (data) => {
     puzzleValidationMessage.innerText = "";
   });
 
-  const puzzleButton = renderElement("button", "primary-button", gameForm, {
+  const actionsContainer = renderElement("div", "actions-container", gameMenuContainer);
+
+  const puzzleButton = renderElement("button", "primary-button", actionsContainer, {
     type: "button",
     textContent: "Play!",
   });
-  const randomButton = renderElement("button", "primary-button", gameForm, {
+  const randomButton = renderElement("button", "primary-button", actionsContainer, {
     type: "button",
     textContent: "Random Game",
   });
@@ -93,7 +95,7 @@ export const renderStartGameMenu = (data) => {
   const continueGameButton = renderElement(
     "button",
     "primary-button",
-    gameForm,
+      actionsContainer,
     {
       type: "button",
       textContent: "Continue last Game",

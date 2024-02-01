@@ -2,6 +2,7 @@ import { state } from "./main.js";
 import { renderAudioElements } from "./components/audioElements.js";
 import { renderHighScoresTable } from "./components/highScoresTable.js";
 import { handleStartButton } from "./components/userMenu.js";
+import { renderThemeToggle } from "./components/themeToggle.js";
 
 export const renderElement = (child, className, parent, attr) => {
   const element = document.createElement(child);
@@ -17,9 +18,23 @@ export const renderElement = (child, className, parent, attr) => {
 
 export const initialRender = () => {
   document.body.innerHTML = "";
-  const mainContainer = renderElement("div", "main-container", document.body, {
+
+  const headerContainer = renderElement("header", "main-header", document.body, {
+    id: "mainHeader",
+  });
+
+  const contentWrapper = renderElement("div", "main-content-wrapper", document.body, {
+    id: "mainContentWrapper",
+  });
+
+  const mainContainer = renderElement("div", "main-container", contentWrapper, {
     id: "mainContainer",
   });
+
+  const sidebarContainer = renderElement("section", "sidebar-container", contentWrapper, {
+    id: "sidebarContainer",
+  });
+
   const nonogramContainer = renderElement(
     "div",
     "nonogram-container",
@@ -29,10 +44,12 @@ export const initialRender = () => {
     }
   );
   renderAudioElements();
-  state.highScores = JSON.parse(
-    localStorage.getItem("highScores") ? localStorage.getItem("highScores") : []
-  );
+  state.highScores = localStorage.getItem("highScores")
+      ? JSON.parse(localStorage.getItem("highScores"))
+      : [];
+
   renderHighScoresTable();
+  renderThemeToggle();
 };
 
 export const renderTime = (seconds, element) => {

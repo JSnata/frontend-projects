@@ -5,7 +5,7 @@ export const renderThemeToggle = () => {
   const themeToggleContainer = renderElement(
     "div",
     "theme-toggle-container",
-    mainContainer
+    document.getElementById('mainHeader')
   );
   const inputThemeToggle = renderElement(
     "input",
@@ -34,12 +34,14 @@ export const toggleThemeHandler = () => {
     root.style.setProperty("--bg-color", "rgb(42, 42, 42)");
     root.style.setProperty("--border-color", "#fff");
     root.style.setProperty("--text-color", "#fff");
+    root.style.setProperty("--text-color-secondary", "#fff");
     root.style.setProperty("--primary-color", "#fff");
   } else {
     state.isLightTheme = true;
     root.style.setProperty("--bg-color", "#fff");
     root.style.setProperty("--border-color", "#717171");
     root.style.setProperty("--text-color", "#000");
+    root.style.setProperty("--text-color-secondary", "#4a4a4a");
     root.style.setProperty("--primary-color", "#1d2443");
   }
 };

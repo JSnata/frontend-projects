@@ -9,15 +9,17 @@ import {
 
 import { renderTimer } from './timer.js';
 import { renderUserMenu } from './userMenu.js';
-import { renderThemeToggle } from './themeToggle.js';
 import { startTimer } from './timer.js';
 import { winGameHandler } from '../eventHandlers.js';
 
 export const fieldRender = (puzzle, puzzleName, fieldMode) => {
   const nonogramContainer = document.getElementById("nonogramContainer");
-  const heading = renderElement("h1", "main-heading", mainContainer, {
+  const headerContainer = document.getElementById("mainHeader");
+
+  renderElement("h1", "puzzle-name-container", headerContainer, {
     innerText: puzzleName,
   });
+
   let topClueCounter = 0;
   puzzle.forEach((rowArr, rowIndex) => {
     //top row clues render
@@ -65,7 +67,6 @@ export const fieldRender = (puzzle, puzzleName, fieldMode) => {
     });
   });
   renderUserMenu();
-  renderThemeToggle();
   renderTimer();
   console.log("Solution/Решение:", state.currentPuzzle);
 };

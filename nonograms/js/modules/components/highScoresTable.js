@@ -3,8 +3,9 @@ import { renderElement, renderTime } from '../render.js';
 
 export const renderHighScoresTable = () => {
   if (state.highScores.length) {
-    const mainContainer = document.getElementById("mainContainer");
-    const highScoresTable = renderElement("div", "highscores", mainContainer, {
+    const sidebarContainer = document.getElementById("sidebarContainer");
+
+    const highScoresTable = renderElement("table", "highscores", sidebarContainer, {
       id: "highScoresTable",
     });
     const tableHeader = renderElement("thead", "", highScoresTable);
