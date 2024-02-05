@@ -106,7 +106,7 @@ body {
   height: 100%;
   padding: 30px 0;
   width: 100%;
-  gap: 10px;
+  gap: 20px;
   flex-grow: 1;
 }
 
@@ -123,6 +123,7 @@ body {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  order: 1;
 }
 
 .row {
@@ -319,12 +320,14 @@ body {
 
 .game-menu {
   max-width: 500px;
-  padding: 0;
+  padding: 0 0 30px;
+  border-bottom: 1px solid var(--border-color);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 30px;
   width: 100%;
+  order: 0;
 }
 
 .game-menu-form {
@@ -332,9 +335,17 @@ body {
   padding: 20px;
   box-shadow: 0px 0px 20px -12px rgba(66, 68, 90, 1);
   border-radius: 6px;
+  display: flex;
+  align-items: start;
+  gap: 10px;
+}
+
+.game-menu-form > .item {
+  width: 100%;
 }
 
 .user-menu {
+  order: 2;
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
@@ -354,10 +365,22 @@ body {
 }
 
 .saved-message {
-  font-size: 14px;
+  display: block;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 18px;
   margin: 0;
-  color: red;
-  height: 14px;
+  color: var(--primary-color);
+  padding: 16px 20px;
+  box-shadow: 0px 0px 10px -5px rgba(66, 68, 90, 1);
+  border-radius: 4px;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+}
+
+.saved-message:empty {
+  display: none;
 }
 
 .game-menu-label {
@@ -387,7 +410,7 @@ body {
 
 .validation-message {
   font-size: 12px;
-  margin: 5px 0;
+  margin: 5px 0 0;
   color: red;
 }
 
@@ -437,7 +460,12 @@ tbody tr:nth-child(even) {
 
 @media only screen and (max-width: 600px) {
   .main-container {
-    padding: 0;
+    padding: 10px 0 30px;
+  }
+
+  .saved-message {
+    position: static;
+    order: 5;
   }
 
   .sidebar-container {

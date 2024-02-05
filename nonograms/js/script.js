@@ -1,3 +1,4 @@
+import { fieldRender } from './modules/components/field.js';
 import {
   fetchPuzzles,
   fetchUserPuzzles

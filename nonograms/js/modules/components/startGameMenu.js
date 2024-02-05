@@ -1,7 +1,7 @@
 import { renderElement, initialRender } from '../render.js';
 import { getRandom, state } from '../main.js';
 import { fieldRender } from './field.js';
-import { startTimer } from './timer.js';
+import { startTimer, stopTimer } from './timer.js';
 
 export const renderStartGameMenu = (data) => {
   const gameMenuContainer = renderElement("div", "game-menu", mainContainer, {
@@ -10,16 +10,23 @@ export const renderStartGameMenu = (data) => {
   const gameForm = renderElement("form", "game-menu-form", gameMenuContainer, {
     id: "gameForm",
   });
-  const levelLabel = renderElement("label", "game-menu-label", gameForm, {
+
+  const elementWrap1 = renderElement("div", "item", gameForm);
+  const elementWrap2 = renderElement("div", "item", gameForm);
+
+  const levelLabel = renderElement("label", "game-menu-label", elementWrap1, {
     for: "levelSelect",
   });
+
   levelLabel.textContent = "Choose a level";
-  const levelValidationMessage = renderElement("p", "validation-message", gameForm, {
-    id: "levelValidationMessage",
-  });
-  const levelSelect = renderElement("select", "game-menu-select", gameForm, {
+  const levelSelect = renderElement("select", "game-menu-select", elementWrap1, {
     id: "levelSelect",
     name: "level",
+    
+  });
+  console.log(state.currentLevel)
+  const levelValidationMessage = renderElement("p", "validation-message", elementWrap1, {
+    id: "levelValidationMessage",
   });
 
   //placeholder level option
@@ -36,17 +43,19 @@ export const renderStartGameMenu = (data) => {
     });
   }
 
-  const puzzleLabel = renderElement("label", "game-menu-label", gameForm, {
+  state.currentLevel && (levelSelect.value = state.currentLevel);
+
+  const puzzleLabel = renderElement("label", "game-menu-label", elementWrap2, {
     for: "puzzleSelect",
   });
 
   puzzleLabel.textContent = "Choose a puzzle";
-  const puzzleValidationMessage = renderElement("p", "validation-message", gameForm, {
-    id: "puzzleValidationMessage",
-  });
-  const puzzleSelect = renderElement("select", "game-menu-select", gameForm, {
+  const puzzleSelect = renderElement("select", "game-menu-select", elementWrap2, {
     id: "puzzleSelect",
     name: "puzzle",
+  });
+  const puzzleValidationMessage = renderElement("p", "validation-message", elementWrap2, {
+    id: "puzzleValidationMessage",
   });
 
   //placeholder level option
@@ -54,6 +63,20 @@ export const renderStartGameMenu = (data) => {
     value: "",
     textContent: "-----",
   });
+
+  ;
+
+  if (state.currentLevel && state.currentPuzzleName) {
+    const puzzlesForLevel = data.levels[state.currentLevel];
+      for (const puzzleKey in puzzlesForLevel) {
+        renderElement("option", "game-menu-option", puzzleSelect, {
+          value: puzzleKey,
+          textContent: puzzleKey,
+        });
+      }
+
+    puzzleSelect.value = state.currentPuzzleName
+  }
 
   levelSelect.addEventListener("change", function () {
     const selectedLevel = levelSelect.value;
@@ -127,25 +150,26 @@ export const continueGameButtonHandler = () => {
       state[key] = savedGameState;
     }
   }
-  if(savedGameState){
-    if(state.seconds){
-      startTimer();
-    }
-    initialRender();
-    fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
-    const cellsElements = document.querySelectorAll(".row .cell");
-    cellsElements.forEach((el) => {
-      const row = el.dataset.row;
-      const cell = el.dataset.cell;
-  
-      if (state.currentUserPuzzle[row][cell]) {
-        el.classList.add("filled");
-      }
-      if (state.currentUserPuzzleCrossed[row][cell]) {
-        el.classList.add("crossed");
-      }
-    });
+
+  if(state.seconds){
+    startTimer();
   }
+  state.isSolutionShowed = false;
+  initialRender();
+  fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
+  renderStartGameMenu(state.puzzlesData);
+  const cellsElements = document.querySelectorAll(".row .cell");
+  cellsElements.forEach((el) => {
+    const row = el.dataset.row;
+    const cell = el.dataset.cell;
+
+    if (state.currentUserPuzzle[row][cell]) {
+      el.classList.add("filled");
+    }
+    if (state.currentUserPuzzleCrossed[row][cell]) {
+      el.classList.add("crossed");
+    }
+  });
 };
 
 export const randomGameButtonHandler = (e, data) => {
@@ -164,15 +188,21 @@ export const randomGameButtonHandler = (e, data) => {
   state.currentUserPuzzleCrossed = JSON.parse(
     JSON.stringify(state.userPuzzles[state.currentLevel])
   );
-  gameMenuContainer.style.display = "none";
+
+  state.isSolutionShowed = false;
+  stopTimer();
   fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
+  renderStartGameMenu(state.puzzlesData);
 };
 
 export const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
-  const gameMenuContainer = document.getElementById("gameMenuContainer")
+  const gameMenuContainer = document.getElementById("gameMenuContainer");
   e.preventDefault();
   const selectedLevel = levelSelect.value;
   const selectedPuzzle = puzzleSelect.value;
+
+  stopTimer();
+
   if (selectedLevel && selectedPuzzle) {
     state.currentLevel = levelSelect.value;
     state.currentPuzzleName = puzzleSelect.value;
@@ -187,7 +217,9 @@ export const puzzleButtonHandler = (e, levelSelect, puzzleSelect) => {
     state.currentUserPuzzleCrossed = JSON.parse(
       JSON.stringify(state.userPuzzles[selectedLevel])
     );
+    state.isSolutionShowed = false;
     fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
+    renderStartGameMenu(state.puzzlesData);
   } else {
     if(!selectedLevel) {
       const levelValidationMessage = document.getElementById("levelValidationMessage");
