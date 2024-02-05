@@ -1,5 +1,6 @@
 import { renderElement } from "../render.js";
-import { state } from "../main.js";
+
+let isDarkTheme = false;
 
 export const renderThemeToggle = () => {
   const themeToggleContainer = renderElement(
@@ -14,30 +15,32 @@ export const renderThemeToggle = () => {
     {
       type: "checkbox",
       id: "theme-toggle",
+      checked: isDarkTheme
     }
   );
   inputThemeToggle.addEventListener("change", () => {
     toggleThemeHandler();
   });
-  const labelThemeToggle = renderElement("label", "", themeToggleContainer, {
+  renderElement("label", "", themeToggleContainer, {
     htmlFor: "theme-toggle",
   });
-  const spanThemeToggle = renderElement("span", "", themeToggleContainer, {
+  renderElement("span", "", themeToggleContainer, {
     innerText: "Dark Theme",
   });
 };
 
 export const toggleThemeHandler = () => {
+  const toggleCheckbox = document.getElementById("theme-toggle");
   const root = document.documentElement;
-  if (state.isLightTheme) {
-    state.isLightTheme = false;
+  if (toggleCheckbox.checked) {
+    isDarkTheme = true;
     root.style.setProperty("--bg-color", "rgb(42, 42, 42)");
     root.style.setProperty("--border-color", "#fff");
     root.style.setProperty("--text-color", "#fff");
     root.style.setProperty("--text-color-secondary", "#fff");
     root.style.setProperty("--primary-color", "#fff");
   } else {
-    state.isLightTheme = true;
+    isDarkTheme = false;
     root.style.setProperty("--bg-color", "#fff");
     root.style.setProperty("--border-color", "#717171");
     root.style.setProperty("--text-color", "#000");

@@ -2,7 +2,7 @@ import { state } from "./main.js";
 import { renderAudioElements } from "./components/audioElements.js";
 import { renderHighScoresTable } from "./components/highScoresTable.js";
 import { handleStartButton } from "./components/userMenu.js";
-import { renderThemeToggle } from "./components/themeToggle.js";
+import { renderThemeToggle, toggleThemeHandler } from "./components/themeToggle.js";
 
 export const renderElement = (child, className, parent, attr) => {
   const element = document.createElement(child);
