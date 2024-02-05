@@ -39,6 +39,7 @@ export const toggleThemeHandler = () => {
     root.style.setProperty("--text-color", "#fff");
     root.style.setProperty("--text-color-secondary", "#fff");
     root.style.setProperty("--primary-color", "#fff");
+    root.style.setProperty("--primary-color-hover", "#717171");
   } else {
     isDarkTheme = false;
     root.style.setProperty("--bg-color", "#fff");
@@ -46,5 +47,6 @@ export const toggleThemeHandler = () => {
     root.style.setProperty("--text-color", "#000");
     root.style.setProperty("--text-color-secondary", "#4a4a4a");
     root.style.setProperty("--primary-color", "#1d2443");
+    root.style.setProperty("--primary-color-hover", "#2d386b");
   }
 };

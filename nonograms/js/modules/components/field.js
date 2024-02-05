@@ -129,6 +129,9 @@ export const cellRightClickHandler = (e) => {
     markWhiteSoundElement.currentTime = 0;
     markWhiteSoundElement.play();
   }
+  if (!state.timerInterval) {
+    startTimer();
+  }
 };
 
 export const cellClickHandler = (e) => {
@@ -164,7 +167,5 @@ export const cellClickHandler = (e) => {
   }
   if (areArraysEqual(state.currentUserPuzzle, state.currentPuzzle)) {
     winGameHandler();
-  } else {
-    console.log("Not Equal");
   }
 };
