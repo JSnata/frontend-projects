@@ -19,7 +19,7 @@ export const renderElement = (child, className, parent, attr) => {
 export const initialRender = () => {
   document.body.innerHTML = "";
 
-  const headerContainer = renderElement("header", "main-header", document.body, {
+  renderElement("header", "main-header", document.body, {
     id: "mainHeader",
   });
 
@@ -31,11 +31,11 @@ export const initialRender = () => {
     id: "mainContainer",
   });
 
-  const sidebarContainer = renderElement("section", "sidebar-container", contentWrapper, {
+  renderElement("section", "sidebar-container", contentWrapper, {
     id: "sidebarContainer",
   });
 
-  const nonogramContainer = renderElement(
+  renderElement(
     "div",
     "nonogram-container",
     mainContainer,
@@ -66,7 +66,7 @@ export const renderTime = (seconds, element) => {
 export const renderModal = (result) => {
   const modal = renderElement("div", "modal", mainContainer);
   const modalContent = renderElement("div", "modal-content", modal);
-  const resultMessage = renderElement("h2", "result-message", modalContent, {
+  renderElement("h2", "result-message", modalContent, {
     innerText: result,
   });
   const startButton = renderElement("button", "modal-button", modalContent, {

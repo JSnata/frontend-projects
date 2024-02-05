@@ -353,6 +353,13 @@ body {
   width: 100%;
 }
 
+.saved-message {
+  font-size: 14px;
+  margin: 0;
+  color: red;
+  height: 14px;
+}
+
 .game-menu-label {
   font-size: 14px;
   display: block;

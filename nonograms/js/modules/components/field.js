@@ -104,6 +104,8 @@ const renderTopClue = (puzzle) => {
 };
 
 export const cellRightClickHandler = (e) => {
+  const savedMessageElement = document.getElementById('savedMessage');
+  savedMessageElement.innerText = "";
   const markCrossSoundElement = document.getElementById("markCrossSoundElement");
   const markWhiteSoundElement = document.getElementById("markWhiteSoundElement");
   console.log(markCrossSoundElement);
@@ -130,6 +132,8 @@ export const cellRightClickHandler = (e) => {
 };
 
 export const cellClickHandler = (e) => {
+  const savedMessageElement = document.getElementById('savedMessage');
+  savedMessageElement.innerText = "";
   const markBlackSoundElement = document.getElementById("markBlackSoundElement");
   const markWhiteSoundElement = document.getElementById("markWhiteSoundElement");
 

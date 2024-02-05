@@ -8,6 +8,9 @@ let isSolutionShowed = false;
 
 export const renderUserMenu = () => {
   const userMenuContainer = renderElement("div", "user-menu", mainContainer);
+  renderElement("p", "saved-message", mainContainer, {
+    id: "savedMessage"
+  });
   const resetButton = renderElement(
     "button",
     "primary-button",
@@ -74,6 +77,8 @@ const handleResetButton = () => {
 };
 
 export const handleSolutionButton = () => {
+  const savedMessageElement = document.getElementById('savedMessage');
+  savedMessageElement.innerText = "";
   isSolutionShowed = true;
   stopTimer();
   initialRender();
@@ -81,6 +86,8 @@ export const handleSolutionButton = () => {
 };
 
 export const handleSaveGameButton = () => {
+  const savedMessageElement = document.getElementById('savedMessage');
+  savedMessageElement.innerText = "Game has been saved."
   for (let key in state) {
     localStorage.setItem(`${key}`, JSON.stringify(state[key]));
   }
