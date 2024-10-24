@@ -2,7 +2,7 @@
 
 Welcome to **Nonograms**, a logic-based puzzle game where players use numbers to reveal a hidden picture on the grid.
 
-You can [play the game here](https://rolling-scopes-school.github.io/jsnata-JSFE2023Q4/nonograms/index.html)!
+You can [play the game here](https://jsnata.github.io/nonograms-game/nonograms/index.html)!
 
 ## Gameplay
 
