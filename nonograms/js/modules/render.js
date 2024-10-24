@@ -5,13 +5,6 @@ import { handleStartButton } from "./components/userMenu.js";
 import { renderThemeToggle, toggleThemeHandler } from "./components/themeToggle.js";
 
 export const renderElement = (child, className, parent, attr) => {
-  if (attr && attr['id']) {
-    const current = document.getElementById(attr.id);
-
-    current && current.remove();
-  }
-
-
   const element = document.createElement(child);
   className && (element.className = className);
   parent && parent.append(element);
@@ -77,7 +70,7 @@ export const renderModal = (result) => {
     innerText: result,
   });
   const startButton = renderElement("button", "modal-button", modalContent, {
-    innerText: "New Game",
+    innerText: "Play Again",
   });
   startButton.addEventListener("click", () => handleStartButton());
   modal.style.display = "flex";

@@ -15,13 +15,9 @@ import { winGameHandler } from '../eventHandlers.js';
 export const fieldRender = (puzzle, puzzleName, fieldMode) => {
   const nonogramContainer = document.getElementById("nonogramContainer");
   const headerContainer = document.getElementById("mainHeader");
-  const userMenu = document.getElementById("userMenu");
-
-  nonogramContainer && (nonogramContainer.innerHTML = '');
 
   renderElement("h1", "puzzle-name-container", headerContainer, {
     innerText: puzzleName,
-    id: 'puzzleNameContainer'
   });
 
   let topClueCounter = 0;

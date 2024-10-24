@@ -7,8 +7,6 @@ import {
   renderElement
 } from '../render.js';
 
-let interval = 0;
-
 export const renderTimer = () => {
   const timerElement = renderElement("div", "timer", document.getElementById('mainHeader'), {
     id: "timer",
@@ -24,9 +22,7 @@ export const resetTimer = () => {
 };
 
 export const startTimer = () => {
-  clearInterval(interval);
-  interval = setInterval(updateTimer, 1000);
-  state.timerInterval = interval;
+  state.timerInterval = setInterval(updateTimer, 1000);
 };
 
 export const updateTimer = () => {
@@ -37,7 +33,6 @@ export const updateTimer = () => {
 
 export const stopTimer = () => {
   state.seconds = 0;
-  clearInterval(interval);
-  interval = 0;
-  state.timerInterval = 0;
+  clearInterval(state.timerInterval);
+  state.timerInterval = null;
 };

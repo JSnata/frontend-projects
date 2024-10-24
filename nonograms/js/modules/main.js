@@ -1,5 +1,4 @@
 import { initialRender } from "./render.js";
-import { fieldRender } from "./components/field.js"; 
 
 import { renderStartGameMenu } from "./components/startGameMenu.js";
 
@@ -14,7 +13,6 @@ export const state = {
   timerInterval: null, //number
   seconds: 0, //number
   highScores: [], //array of objects
-  isSolutionShowed: false,
 };
 
 export const fetchPuzzles = () => {
@@ -22,15 +20,6 @@ export const fetchPuzzles = () => {
     .then((response) => response.json())
     .then((data) => {
       state.puzzlesData = data;
-
-      //first render
-      state.currentLevel = "easy";
-      const puzzlesArr = Object.entries(data.levels["easy"]);
-      const randomPuzzle = getRandom(puzzlesArr, state.currentPuzzle);
-      state.currentPuzzleName = randomPuzzle[0];
-      state.currentPuzzle = randomPuzzle[1];
-
-      fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
       renderStartGameMenu(data);
     })
     .catch((error) => console.error("Loading JSON error:", error));
@@ -41,12 +30,6 @@ export const fetchUserPuzzles = () => {
     .then((response) => response.json())
     .then((data) => {
       state.userPuzzles = data;
-      state.currentUserPuzzle = JSON.parse(
-        JSON.stringify(state.userPuzzles[state.currentLevel])
-      );
-      state.currentUserPuzzleCrossed = JSON.parse(
-        JSON.stringify(state.userPuzzles[state.currentLevel])
-      );
     })
     .catch((error) => console.error("Loading JSON error:", error));
 };

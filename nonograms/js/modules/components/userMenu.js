@@ -1,18 +1,13 @@
 import { renderElement, initialRender } from "../render.js";
 import { fieldRender } from "./field.js";
-import { state, fetchPuzzles,fetchUserPuzzles } from "../main.js";
+import { state } from "../main.js";
 import { renderStartGameMenu } from './startGameMenu.js';
 import { resetTimer, stopTimer } from "./timer.js";
 
+let isSolutionShowed = false;
 
 export const renderUserMenu = () => {
-  const currentHtml = document.getElementById('userMenu');
-
-  currentHtml && currentHtml.remove();
-
-  const userMenuContainer = renderElement("div", "user-menu", mainContainer, {
-    id: "userMenu"
-  });
+  const userMenuContainer = renderElement("div", "user-menu", mainContainer);
   renderElement("p", "saved-message", mainContainer, {
     id: "savedMessage"
   });
@@ -21,7 +16,7 @@ export const renderUserMenu = () => {
     "primary-button",
     userMenuContainer,
     { id: "resetButton",
-      innerText: "Reset game",
+      innerText: "Reset",
     }
   );
   const solutionButton = renderElement(
@@ -32,14 +27,14 @@ export const renderUserMenu = () => {
       innerText: "Solution",
     }
   );
-  // const newGameButton = renderElement(
-  //   "button",
-  //   "primary-button",
-  //   userMenuContainer,
-  //   {
-  //     innerText: "New Game",
-  //   }
-  // );
+  const newGameButton = renderElement(
+    "button",
+    "primary-button",
+    userMenuContainer,
+    {
+      innerText: "New Game",
+    }
+  );
   const saveGameButton = renderElement(
     "button",
     "primary-button",
@@ -52,25 +47,24 @@ export const renderUserMenu = () => {
   saveGameButton.addEventListener("click", (e) => {
     handleSaveGameButton();
   });
-  if(state.isSolutionShowed){
+  if(isSolutionShowed){
     saveGameButton.disabled = true;
   }
   resetButton.addEventListener("click", (e) => {
     handleResetButton();
   });
-  if(state.isSolutionShowed){
+  if(isSolutionShowed){
     resetButton.disabled = true;
   }
-  // newGameButton.addEventListener("click", () => {
-  //   handleStartButton();
-  // });
+  newGameButton.addEventListener("click", () => {
+    handleStartButton();
+  });
   solutionButton.addEventListener("click", () => {
     handleSolutionButton();
   });
 };
 
 const handleResetButton = () => {
-  stopTimer();
   resetTimer();
   initialRender();
   state.currentUserPuzzle = JSON.parse(
@@ -79,17 +73,15 @@ const handleResetButton = () => {
   state.currentUserPuzzleCrossed = JSON.parse(
     JSON.stringify(state.userPuzzles[state.currentLevel])
   );
-  renderStartGameMenu(state.puzzlesData);
   fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
 };
 
 export const handleSolutionButton = () => {
   const savedMessageElement = document.getElementById('savedMessage');
   savedMessageElement.innerText = "";
-  state.isSolutionShowed = true;
+  isSolutionShowed = true;
   stopTimer();
   initialRender();
-  renderStartGameMenu(state.puzzlesData);
   fieldRender(state.currentPuzzle, state.currentPuzzleName, "solution");
 };
 
@@ -102,12 +94,8 @@ export const handleSaveGameButton = () => {
 };
 
 export const handleStartButton = () => {
-  state.isSolutionShowed = false;
-
-  fetchPuzzles();
-  fetchUserPuzzles();
+  isSolutionShowed = false;
   initialRender();
   stopTimer();
   renderStartGameMenu(state.puzzlesData);
-  fieldRender(state.currentPuzzle, state.currentPuzzleName, "initial");
 };
